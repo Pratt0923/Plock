@@ -5,7 +5,7 @@ require "sinatra/json"
 require "./db/setup"
 require "./lib/all"
 
-class Plock < ActiveRecord::Base
+class PlockApp < ActiveRecord::Base
   set :logging, true
   set :show_exceptions, false
 
