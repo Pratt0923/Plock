@@ -43,7 +43,7 @@ class PlockTests < Minitest::Test
   end
 
   def test_users_cannot_add_bookmarks_without_being_logged_in
-    make_bookmark
+    
   end
 
 
