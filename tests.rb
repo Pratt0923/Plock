@@ -32,6 +32,8 @@ class PlockTests < Minitest::Test
     User.create! id: 2, username: "bad", password: "wrong"
   end
 
+  
+
   def test_users_can_add_bookmarks
     skip
     make_existing_user
