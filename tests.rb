@@ -36,7 +36,6 @@ focus
   def test_users_can_see_bookmarks
     r = get "/my_bookmarks"
     assert_equal 200, r.status
-    binding.pry
 
     body = JSON.parse r.body
 
