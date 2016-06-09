@@ -29,7 +29,7 @@ class PlockTests < Minitest::Test
   end
 
   def user_with_different_user_pass
-    User.create! id: 1, username: "bad", password: "wrong"
+    User.create! id: 2, username: "bad", password: "wrong"
   end
 
   def test_users_can_add_bookmarks
@@ -43,7 +43,12 @@ class PlockTests < Minitest::Test
   end
 
   def test_users_cannot_add_bookmarks_without_being_logged_in
-    
+    user_with_different_user_pass
+    assert_equal 1, User.count
+    make_bookmark
+    binding.pry
+    assert_equal 0, Bookmark.count
+    binding.pry
   end
 
 
