@@ -32,9 +32,9 @@ class Plock < Sinatra::Base
   #   end
   # end
   #
-  # def user
-  #   user = User.find_by(username: "fake", password: "password")
-  # end
+  def user
+    user = User.find_by(username: "fake", password: "password")
+  end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
 

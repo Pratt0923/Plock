@@ -37,7 +37,14 @@ focus
     r = get "/my_bookmarks"
     assert_equal 200, r.status
 
-    body = JSON.parse r.body
+  def test_users_can_add_bookmarks
+
+    make_existing_user
+    3.times do
+      make_bookmark
+    end
+    assert_equal 1, User.count
+    assert_equal 3, Bookmark.count
 
   end
 
@@ -60,6 +67,15 @@ focus
   # end
 
 
+  def test_users_cannot_post_to_other_users_bookmarks
+    User.create! username: "pass"
+    User.create! username: "tests"
+    rightuser = User.where(username: "pass")
+    wronguser = User.where(username: "tests")
+    wronguser.first.bookmarks.create!
+    assert_equal 0, rightuser.first.bookmarks.count
+    assert_equal 1, wronguser.first.bookmarks.count
+  end
   # focus
   # def test_users_cannot_post_to_other_users_bookmarks
   #   user_with_different_user_pass
