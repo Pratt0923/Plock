@@ -43,8 +43,7 @@ class PlockTests < Minitest::Test
   end
 
   def test_users_cannot_add_bookmarks_without_being_logged_in
-    user_with_different_user_pass
-    assert_equal 1, User.count
+    assert_equal 0, User.count
     make_bookmark
     binding.pry
     assert_equal 0, Bookmark.count

@@ -36,8 +36,6 @@ class Plock < ActiveRecord::Base
   end
 #----------------------------------------------------------------
   get "/users/my_bookmarks" do
-    bookmarks = Bookmark.where(user_id: user.id)
-    bookmarks.all.to_json
   end
 
   post "/users/my_bookmarks" do
