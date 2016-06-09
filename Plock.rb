@@ -37,9 +37,7 @@ class Plock < Sinatra::Base
   end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
-
-    json []
-
+    JSON.parse user.bookmark.to_json
   end
 
   post "/my_bookmarks" do
