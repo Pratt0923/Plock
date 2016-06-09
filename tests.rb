@@ -21,7 +21,7 @@ class PlockTests < Minitest::Test
   # end
 
   def make_existing_user
-    User.create! id: 1, username: "username", password: "password"
+    User.create! id: 1, username: "fake", password: "password"
   end
 
   def make_bookmark
@@ -32,10 +32,10 @@ class PlockTests < Minitest::Test
     User.create! id: 2, username: "bad", password: "wrong"
   end
 
-  
 
+  focus
   def test_users_can_add_bookmarks
-    skip
+
     make_existing_user
     3.times do
       make_bookmark
@@ -44,15 +44,24 @@ class PlockTests < Minitest::Test
     assert_equal 3, Bookmark.count
   end
 
-  def test_users_cannot_add_bookmarks_without_being_logged_in
-    assert_equal 0, User.count
-    make_bookmark
-    binding.pry
-    assert_equal 0, Bookmark.count
-    binding.pry
+  # def test_users_cannot_add_bookmarks_without_being_logged_in
+  #   assert_equal 0, User.count
+  #   make_bookmark
+  #   binding.pry
+  #   assert_equal 0, Bookmark.count
+  #   binding.pry
+  # end
+
+
+
+  def test_users_cannot_post_to_other_users_bookmarks
+    user_with_different_user_pass
+    3.times do
+      make_existing_user.bookmarks.create!
+    end
+    assert_equal 0, user_with_different_user_pass.bookmarks.count
+    # assert_equal 3,
+    #need to make user and make another user. other user
+    #needs to try and add something to usera's bookmarks and fail
   end
-
-
-
-
 end

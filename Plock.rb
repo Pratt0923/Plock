@@ -8,7 +8,7 @@ require "./lib/all"
 class Plock < ActiveRecord::Base
   set :logging, true
   set :show_exceptions, false
-##
+#
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
       halt 404
@@ -32,23 +32,20 @@ class Plock < ActiveRecord::Base
   end
 
   def user
-    user = User.find_by(username: "username", password: "password")
+    user = User.find_by(username: "fake", password: "password")
   end
 #----------------------------------------------------------------
-  get "/users/my_bookmarks" do
-<<<<<<< HEAD
-=======
+  get "/my_bookmarks" do
     user.first.bookmarks
-    binding.pry
->>>>>>> 19bfb89abb9f5d389314cd4d1105013a2090edb0
   end
 
-  post "/users/my_bookmarks" do
-    Bookmark.create!(
+  post "/my_bookmarks" do
+    user.bookmarks.create!(
     user_id: params[:user_id],
     bookmark_url: params[:bookmark_url],
     bookmark_name: params[:bookmark_name],
     bookmark_description: params[:bookmark_description]
     )
   end
+
 end
