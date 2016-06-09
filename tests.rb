@@ -15,34 +15,38 @@ class PlockTests < Minitest::Test
   def app
     Plock
   end
-
-  def setup
-    Plock.reset_database
-  end
+  #
+  # def setup
+  #   Plock.reset_database
+  # end
 
   def make_existing_user
-    User.create! username: "Existing", password: "User"
+    User.create! id: 1, username: "username", password: "password"
   end
 
   def make_bookmark
-    Bookmark.create! user_id: user.id, bookmark_url: "www.lsdfkjn.com", bookmark_name: "name", bookmark_description: "this is here"
+    Bookmark.create! user_id: 1, bookmark_url: "www.lsdfkjn.com", bookmark_name: "name", bookmark_description: "this is here"
   end
 
-  def make_item
-    Bookmark.create!(
-    user_id: 1,
-    bookmark_url: "www.eslfkjhzsf.com",
-    bookmark_name: "name",
-    bookmark_description: "desc"
-    )
+  def user_with_different_user_pass
+    User.create! id: 1, username: "bad", password: "wrong"
   end
 
-  def users_can_add_bookmarks
-    User.make_existing_user
+  def test_users_can_add_bookmarks
+    skip
+    make_existing_user
     3.times do
       make_bookmark
     end
     assert_equal 1, User.count
     assert_equal 3, Bookmark.count
   end
+
+  def test_users_cannot_add_bookmarks_without_being_logged_in
+    make_bookmark
+  end
+
+
+
+
 end

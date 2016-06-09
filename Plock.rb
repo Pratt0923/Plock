@@ -20,17 +20,21 @@ class Plock < ActiveRecord::Base
     end
   end
 
-  def user
-    user = User.find_by(password: env["HTTP_AUTHORIZATION"])
+  before do
+    require_authorization!
   end
-  #
-  # before do
-  #   if user
-  #   else
-  #     halt 403
-  #   end
-  # end
 
+  def require_authorization!
+    unless user
+      status 401
+      halt({ error: "You must log in" }.to_json)
+    end
+  end
+
+  def user
+    user = User.find_by(username: "username", password: "password")
+  end
+#----------------------------------------------------------------
   get "/users/my_bookmarks" do
     bookmarks = Bookmark.where(user_id: user.id)
     bookmarks.all.to_json
