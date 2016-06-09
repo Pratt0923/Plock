@@ -50,8 +50,8 @@ class Plock < Sinatra::Base
     )
   end
 
-  def self.reset_database
-    [User, Bookmark].each { |klass| klass.delete_all }
-  end
+  # def self.reset_database
+  #   [User, Bookmark].each { |klass| klass.delete_all }
+  # end
 
 end
