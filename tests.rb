@@ -5,6 +5,7 @@ require 'sinatra/base'
 require 'minitest/reporters'
 require "./db/setup"
 require "./lib/all"
+require "./Plock"
 Minitest::Reporters.use! Minitest::Reporters::ProgressReporter.new
 
 require 'rack/test'
@@ -16,9 +17,9 @@ class PlockTests < Minitest::Test
     Plock
   end
   #
-  # def setup
-  #   Plock.reset_database
-  # end
+  def setup
+    Plock.reset_database
+  end
 
   def make_existing_user
     User.create! id: 1, username: "fake", password: "password"
@@ -31,18 +32,25 @@ class PlockTests < Minitest::Test
   def user_with_different_user_pass
     User.create! id: 2, username: "bad", password: "wrong"
   end
+focus
+  def test_users_can_see_bookmarks
+    r = get "/my_bookmarks"
+    assert_equal 200, r.status
+    binding.pry
 
+    body = JSON.parse r.body
 
-  focus
-  def test_users_can_add_bookmarks
-
-    make_existing_user
-    3.times do
-      make_bookmark
-    end
-    assert_equal 1, User.count
-    assert_equal 3, Bookmark.count
   end
+
+  # def test_users_can_add_bookmarks
+  #
+  #   make_existing_user
+  #   3.times do
+  #     make_bookmark
+  #   end
+  #   assert_equal 1, User.count
+  #   assert_equal 3, Bookmark.count
+  # end
 
   # def test_users_cannot_add_bookmarks_without_being_logged_in
   #   assert_equal 0, User.count
@@ -53,15 +61,15 @@ class PlockTests < Minitest::Test
   # end
 
 
-
-  def test_users_cannot_post_to_other_users_bookmarks
-    user_with_different_user_pass
-    3.times do
-      make_existing_user.bookmarks.create!
-    end
-    assert_equal 0, user_with_different_user_pass.bookmarks.count
-    # assert_equal 3,
-    #need to make user and make another user. other user
-    #needs to try and add something to usera's bookmarks and fail
-  end
+  # focus
+  # def test_users_cannot_post_to_other_users_bookmarks
+  #   user_with_different_user_pass
+  #   3.times do
+  #     make_existing_user.bookmarks.create!
+  #   end
+  #   assert_equal 0, user_with_different_user_pass.bookmarks.count
+  #   # assert_equal 3,
+  #   #need to make user and make another user. other user
+  #   #needs to try and add something to usera's bookmarks and fail
+  # end
 end

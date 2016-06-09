@@ -5,7 +5,8 @@ require "sinatra/json"
 require "./db/setup"
 require "./lib/all"
 
-class Plock < ActiveRecord::Base
+
+class Plock < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
 #
@@ -20,23 +21,24 @@ class Plock < ActiveRecord::Base
     end
   end
 
-  before do
-    require_authorization!
-  end
-
-  def require_authorization!
-    unless user
-      status 401
-      halt({ error: "You must log in" }.to_json)
-    end
-  end
-
-  def user
-    user = User.find_by(username: "fake", password: "password")
-  end
+  # before do
+  #   require_authorization!
+  # end
+  #
+  # def require_authorization!
+  #   unless user
+  #     status 401
+  #     halt({ error: "You must log in" }.to_json)
+  #   end
+  # end
+  #
+  # def user
+  #   user = User.find_by(username: "fake", password: "password")
+  # end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
-    user.first.bookmarks
+    json []
+
   end
 
   post "/my_bookmarks" do
@@ -46,6 +48,10 @@ class Plock < ActiveRecord::Base
     bookmark_name: params[:bookmark_name],
     bookmark_description: params[:bookmark_description]
     )
+  end
+
+  def self.reset_database
+    [User, Bookmark].each { |klass| klass.delete_all }
   end
 
 end
