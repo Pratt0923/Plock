@@ -1,4 +1,4 @@
-require "./app"
+require "./plock"
 require "rack/cors"
 
 use Rack::Cors do
@@ -8,4 +8,4 @@ use Rack::Cors do
   end
 end
 
-run TodoApp
+run Plock
