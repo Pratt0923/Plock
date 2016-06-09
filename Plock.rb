@@ -21,10 +21,16 @@ class Plock < ActiveRecord::Base
   end
 
 get "/users/my_bookmarks" do
-  
+
 end
 
 post "/users/my_bookmarks" do
-
+  Bookmark.create!(
+  user_id: params[:user_id],
+  bookmark_url: params[:bookmark_url]
+  bookmark_name: params[:bookmark_name]
+  bookmark_description: params[:bookmark_description]
+  )
+  binding.pry
 
 end
