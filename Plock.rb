@@ -36,11 +36,6 @@ class Plock < ActiveRecord::Base
   end
 #----------------------------------------------------------------
   get "/users/my_bookmarks" do
-<<<<<<< HEAD
-=======
-    user.first.bookmarks
-    binding.pry
->>>>>>> 19bfb89abb9f5d389314cd4d1105013a2090edb0
   end
 
   post "/users/my_bookmarks" do
