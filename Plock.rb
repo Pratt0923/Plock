@@ -5,10 +5,7 @@ require "sinatra/json"
 require "./db/setup"
 require "./lib/all"
 
-<<<<<<< HEAD
-=======
 
->>>>>>> fe9962ccc7a5f7d0d178f0ba8c898e5bca7224cc
 class Plock < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
@@ -35,9 +32,9 @@ class Plock < Sinatra::Base
   #   end
   # end
   #
-  # def user
-  #   user = User.find_by(username: "fake", password: "password")
-  # end
+  def user
+    user = User.find_by(username: "fake", password: "password")
+  end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
     json []
