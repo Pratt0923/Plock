@@ -20,17 +20,27 @@ class Plock < ActiveRecord::Base
     end
   end
 
-get "/users/my_bookmarks" do
+  def user
+    user = User.find_by(password: env["HTTP_AUTHORIZATION"])
+  end
+  #
+  # before do
+  #   if user
+  #   else
+  #     halt 403
+  #   end
+  # end
 
+get "/users/my_bookmarks" do
+  bookmarks = Bookmark.where(user_id: user.id)
+  bookmarks.all.to_json
 end
 
 post "/users/my_bookmarks" do
   Bookmark.create!(
   user_id: params[:user_id],
-  bookmark_url: params[:bookmark_url]
-  bookmark_name: params[:bookmark_name]
+  bookmark_url: params[:bookmark_url],
+  bookmark_name: params[:bookmark_name],
   bookmark_description: params[:bookmark_description]
   )
-  binding.pry
-
 end

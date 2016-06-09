@@ -8,7 +8,7 @@ require "./lib/all"
 Minitest::Reporters.use! Minitest::Reporters::ProgressReporter.new
 
 require 'rack/test'
-require './app'
+require './plock'
 class AppTests < Minitest::Test
   include Rack::Test::Methods
 
@@ -25,7 +25,12 @@ class AppTests < Minitest::Test
   end
 
   def make_item
-    Bookmark.create! description: "Old Busted", url: "http://asldfhjskfh.com", name: "name"
+    Bookmark.create!(
+    user_id: 1,
+    bookmark_url: "www.eslfkjhzsf.com",
+    bookmark_name: "name",
+    bookmark_description: "desc"
+    )
   end
 
   def test_can_add_users
@@ -43,7 +48,8 @@ class AppTests < Minitest::Test
     header "Authorization", user.password
     assert_equal 0, Item.count
 
-    r = post "/items", description: "Old Busted", url: "http://asldfhjskfh.com", name: "name"
+    r = post "/items", description: "New Hotness", price: 100.00
+
     assert_equal 200, r.status
     assert_equal 1, Item.count
     assert_equal "New Hotness", Item.first.description
@@ -96,7 +102,7 @@ class AppTests < Minitest::Test
   def test_users_can_see_who_has_ordered_an_item
     item = make_item
     3.times do |i|
-      u = User.create! first_name: i, last_name: i, password: "pass#{i}"
+      u = User.create! username: i, password: i
       u.purchases.create! item: item, quantity: 4
     end
     r = get "/items/#{item.id}/purchases"
