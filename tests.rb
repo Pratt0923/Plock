@@ -81,4 +81,15 @@ class PlockTests < Minitest::Test
     user.recommendations.create!
     assert_equal 1, Recommendations.where(user_id: user.id)
   end
+
+
+  #I made this test but will test it a lot later so that I don't delete all of the front ends data.
+  def test_user_can_delete_bookmarks
+    make_existing_user
+    user = User.find_by(username: "fake", password: "password")
+    user.bookmarks.create!
+    user.bookmarks.create!
+    post "/id=1/my_bookmarks"
+    assert_equal 1, user.bookmarks.count
+  end
 end
