@@ -96,6 +96,19 @@ class Plock < Sinatra::Base
   #     status 400
   #   end
   # end
+
+
+  post "/:id/my_bookmarks" do
+    u = user params[:username], params[:password]
+    if u
+      deleting_item = u.bookmarks.find_by(:id)
+      deleting_item.delete
+      status 200
+    else
+      status 404
+      halt({ error: "Can not delete bookmark" }.to_json)
+    end
+  end
 end
 
 if $PROGRAM_NAME == __FILE__
