@@ -40,7 +40,6 @@ class Plock < Sinatra::Base
     username = params[:username]
     password = params[:password]
     user = User.find_by(username: username, password: password)
-    binding.pry
 
 
     json user.bookmarks
@@ -48,12 +47,15 @@ class Plock < Sinatra::Base
   end
 
   post "/my_bookmarks" do
+
+
     user.bookmarks.create!(
     user_id: params[:user_id],
     bookmark_url: params[:bookmark_url],
     bookmark_name: params[:bookmark_name],
     bookmark_description: params[:bookmark_description]
     )
+
   end
 
   # def self.reset_database
