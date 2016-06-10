@@ -1,4 +1,4 @@
-require "./plock"
+require "./Plock"
 require "rack/cors"
 
 use Rack::Cors do
