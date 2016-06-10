@@ -6,9 +6,21 @@ require "./db/setup"
 require "./lib/all"
 
 
+require "rack/cors"
+
+
+
+
 class Plock < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
+
+  use Rack::Cors do
+    allow do
+      origins "*"
+      resource "*", headers: :any, methods: :any
+    end
+  end
 #
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
@@ -48,7 +60,7 @@ class Plock < Sinatra::Base
 
   post "/my_bookmarks" do
 
-
+    binding.pry
     user.bookmarks.create!(
     user_id: params[:user_id],
     bookmark_url: params[:bookmark_url],
@@ -63,3 +75,5 @@ class Plock < Sinatra::Base
   # end
 
 end
+
+Plock.run!
