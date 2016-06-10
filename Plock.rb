@@ -43,6 +43,7 @@ class Plock < Sinatra::Base
 #----------------------------------------------------------------
   get "/my_bookmarks" do
     u = user params[:username], params[:password]
+
     if u
       status 200
       body json u.bookmarks
@@ -53,6 +54,7 @@ class Plock < Sinatra::Base
   end
 
   post "/my_bookmarks" do
+    binding.pry
     u = user params[:username], params[:password]
     u.bookmarks.create!(
     user_id: params[:user_id],
@@ -77,7 +79,19 @@ class Plock < Sinatra::Base
     url = params[:bookmark_url]
     recipient = params[:recipient]
     u = user params[:username], params[:password]
-    r = Recommendation.new(user_id: u.id, recipient_id: recipient.username, bookmark_id: url)
+    r = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: url)
+
+
+
+    # recommendation = params[:bookmark_id]
+    # bookmark = Bookmark.find_by(bookmark_id: recommendation)
+    # recipient = params[:recipient]
+    #
+    # r = User.find_by(username: recipient)
+    # u = user params[:username], params[:password]
+    #
+    # nr = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: bookmark.id)
+
 
     channel: "#plock_recommendations",
     username: "Plock!",
@@ -88,7 +102,6 @@ class Plock < Sinatra::Base
     body: {
       payload: data.to_json
     }
-
   end
 
   # get "/recommendations" do
