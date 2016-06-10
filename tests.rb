@@ -32,9 +32,10 @@ class PlockTests < Minitest::Test
   def user_with_different_user_pass
     User.create! id: 2, username: "bad", password: "wrong"
   end
-
+focus
   def test_users_can_see_bookmarks
     r = get "/my_bookmarks", params = {"username": "fake", "password": "password"}
+    binding.pry
     assert_equal 200, r.status
   end
 

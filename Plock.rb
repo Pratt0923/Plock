@@ -1,14 +1,19 @@
 require "pry"
 require "sinatra/base"
 require "sinatra/json"
-
 require "./db/setup"
 require "./lib/all"
-
-
+require "rack/cors"
 class Plock < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
+
+  use Rack::Cors do
+    allow do
+      origins "*"
+      resource "*", headers: :any, methods: :any
+    end
+  end
 #
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
@@ -32,24 +37,34 @@ class Plock < Sinatra::Base
   #   end
   # end
   #
-  def user
-    user = User.find_by(username: "fake", password: "password")
+  def user name, password
+    User.find_by(username: name, password: password)
   end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
-    username = params[:username]
-    password = params[:password]
-    user = User.find_by(username: username, password: password)
-    json user.bookmarks
+
+    u = user params[:username], params[:password]
+    if u
+      status 200
+      body json u.bookmarks
+    else
+      status 400
+    end
+
+
   end
 
   post "/my_bookmarks" do
-    user.bookmarks.create!(
-    user_id: user.id,
+    u = user params[:username], params[:password]
+    u.bookmarks.create!(
+    user_id: params[:user_id],
     bookmark_url: params[:bookmark_url],
     bookmark_name: params[:bookmark_name],
     bookmark_description: params[:bookmark_description]
     )
+
+    json u.bookmarks
+
   end
 
   post "/recommendations" do
@@ -65,4 +80,8 @@ class Plock < Sinatra::Base
     user = User.find_by(username: username, password: password)
     json Recommendations.where(user_id: user.id)
   end
+end
+
+if $PROGRAM_NAME == __FILE__
+  Plock.run!
 end

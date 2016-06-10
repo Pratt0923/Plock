@@ -3,3 +3,5 @@ coverage
 db/*.sqlite3
 experiment.rb
 token.rb
+ngrok
+ngrok-stable-darwin-amd64.zip
