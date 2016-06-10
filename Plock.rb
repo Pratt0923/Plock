@@ -66,6 +66,9 @@ class Plock < Sinatra::Base
     u = user params[:username], params[:password]
     u.recommendations.create!(
     user_id: user.id,
+    #user input name
+    #find id by name
+
     recipient_id: params[:recipient_id],
     bookmark_id: bookmark.id
     )
