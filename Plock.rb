@@ -66,12 +66,6 @@ class Plock < Sinatra::Base
   get "/recommendations" do
     u = user params[:username], params[:password]
     if u
-      u.bookmarks.create!(
-      user_id: params[:user_id],
-      bookmark_url: params[:bookmark_url],
-      bookmark_name: params[:bookmark_name],
-      bookmark_description: params[:bookmark_description]
-      )
       body json u.recommendations
     else
       status 400
