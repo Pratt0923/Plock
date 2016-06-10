@@ -40,26 +40,29 @@ class Plock < Sinatra::Base
     username = params[:username]
     password = params[:password]
     user = User.find_by(username: username, password: password)
-
-
     json user.bookmarks
-
   end
 
   post "/my_bookmarks" do
-
-
     user.bookmarks.create!(
-    user_id: params[:user_id],
+    user_id: user.id,
     bookmark_url: params[:bookmark_url],
     bookmark_name: params[:bookmark_name],
     bookmark_description: params[:bookmark_description]
     )
-
   end
 
-  # def self.reset_database
-  #   [User, Bookmark].each { |klass| klass.delete_all }
-  # end
+  post "/recommendations" do
+    bookmark = user.bookmarks.find_by(bookmark_name: "name")
+    user.recommendations.create!(
+    user_id: user.id,
+    recommend_to: params[:recommend_to],
+    bookmark_id: bookmark.id
+    )
+  end
 
+  get "/recommendations" do
+    user = User.find_by(username: username, password: password)
+    json Recommendations.where(user_id: user.id)
+  end
 end
