@@ -78,6 +78,7 @@ focus
     assert_equal 0, rightuser.first.bookmarks.count
     assert_equal 1, wronguser.first.bookmarks.count
   end
+
   # focus
   # def test_users_cannot_post_to_other_users_bookmarks
   #   user_with_different_user_pass

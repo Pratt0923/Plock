@@ -2,3 +2,4 @@
 coverage
 db/*.sqlite3
 experiment.rb
+token.rb
