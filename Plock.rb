@@ -49,9 +49,8 @@ class Plock < Sinatra::Base
       body json u.bookmarks
     else
       status 400
+      json status: "error", error: "This user does not exist"
     end
-
-
   end
 
   post "/my_bookmarks" do
