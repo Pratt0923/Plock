@@ -5,9 +5,9 @@ require "./token.rb"
 
 def get_slack
   HTTParty.get(
-    "https://slack.com/api",
+    "https://slack.com/api/auth.test",
       headers: {
-        "Authorization" => "token #{Token}"
+        "Authorization": "token #{Token}"
       }
     )
 end
