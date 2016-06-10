@@ -44,29 +44,32 @@ class Plock < Sinatra::Base
   #   end
   # end
   #
-  def user
-    user = User.find_by(username: "fake", password: "password")
+  def user name, password
+    User.find_by(username: name, password: password)
   end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
-    # username = params[:username]
-    # password = params[:password]
-    # user = User.find_by(username: username, password: password)
+    u = user params[:username], params[:password]
+    if u
+      status 200
+      body json u.bookmarks
+    else
+      status 400
+    end
 
-
-    json user.bookmarks
 
   end
 
   post "/my_bookmarks" do
-
-    binding.pry
-    user.bookmarks.create!(
+    u = user params[:username], params[:password]
+    u.bookmarks.create!(
     user_id: params[:user_id],
     bookmark_url: params[:bookmark_url],
     bookmark_name: params[:bookmark_name],
     bookmark_description: params[:bookmark_description]
     )
+
+    json u.bookmarks
 
   end
 
@@ -76,4 +79,6 @@ class Plock < Sinatra::Base
 
 end
 
-Plock.run!
+if $PROGRAM_NAME == __FILE__
+  Plock.run!
+end
