@@ -51,6 +51,10 @@ class Plock < Sinatra::Base
     end
   end
 
+  before do
+    u = user params[:username], params[:password]
+  end
+
   post "/my_bookmarks" do
     u = user params[:username], params[:password]
     u.bookmarks.create!(
@@ -63,31 +67,17 @@ class Plock < Sinatra::Base
   end
 
   post "/recommendations" do
-    u = user params[:username], params[:password]
-    u.recommendations.create!(
-    user_id: user.id,
-    #user input name
-    #find id by name
-
-    recipient_id: params[:recipient_id],
-    bookmark_id: bookmark.id
-    )
+  
   end
 
   get "/recommendations" do
-
     u = user params[:username], params[:password]
     if u
       status 200
-      body json u.bookmarks
+      json u.recommendations
     else
       status 400
     end
-
-
-    user = User.find_by(username: username, password: password)
-    recommend = Recommendations.where(recipient_id: user.id)
-    recommend.
   end
 end
 
