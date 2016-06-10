@@ -41,8 +41,6 @@ class Plock < Sinatra::Base
     # password = params[:password]
     # user = User.find_by(username: username, password: password)
 
-    user = User.first
-
 
     json user.bookmarks
 
