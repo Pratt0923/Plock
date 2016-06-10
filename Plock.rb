@@ -48,7 +48,6 @@ class Plock < Sinatra::Base
       body json u.bookmarks
     else
       status 400
-      json status: "error", error: "This user does not exist"
     end
   end
 
@@ -67,19 +66,25 @@ class Plock < Sinatra::Base
     u = user params[:username], params[:password]
     u.recommendations.create!(
     user_id: user.id,
-    recommend_to: params[:recommend_to],
+    recipient_id: params[:recipient_id],
     bookmark_id: bookmark.id
     )
   end
 
   get "/recommendations" do
+
     u = user params[:username], params[:password]
     if u
       status 200
-      body json u.recommendations
+      body json u.bookmarks
     else
       status 400
     end
+
+
+    user = User.find_by(username: username, password: password)
+    recommend = Recommendations.where(recipient_id: user.id)
+    recommend.
   end
 end
 
