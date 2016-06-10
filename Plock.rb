@@ -37,8 +37,13 @@ class Plock < Sinatra::Base
   end
 #----------------------------------------------------------------
   get "/my_bookmarks" do
+    username = params[:username]
+    password = params[:password]
+    user = User.find_by(username: username, password: password)
+    binding.pry
 
-    json []
+
+    json user.bookmarks
 
   end
 

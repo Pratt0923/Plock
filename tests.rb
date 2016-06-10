@@ -17,9 +17,9 @@ class PlockTests < Minitest::Test
     Plock
   end
   #
-  def setup
-    Plock.reset_database
-  end
+  # def setup
+  #   Plock.reset_database
+  # end
 
   def make_existing_user
     User.create! id: 1, username: "fake", password: "password"
@@ -34,7 +34,8 @@ class PlockTests < Minitest::Test
   end
 focus
   def test_users_can_see_bookmarks
-    r = get "/my_bookmarks"
+
+    r = get "/my_bookmarks", params = {"username": "fake", "password": "password"}
     assert_equal 200, r.status
   end
 
