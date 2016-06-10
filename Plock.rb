@@ -61,7 +61,7 @@ class Plock < Sinatra::Base
       bookmark_name: params[:bookmark_name],
       bookmark_description: params[:bookmark_description]
       )
-
+      binding.pry
       json u.bookmarks
     else
       status 400
