@@ -48,15 +48,11 @@ class Plock < Sinatra::Base
       body json u.bookmarks
     else
       status 400
+      halt({ error: "User not found" }.to_json)
     end
   end
 
-  before do
-    u = user params[:username], params[:password]
-  end
-
   post "/my_bookmarks" do
-<<<<<<< HEAD
     u = user params[:username], params[:password]
     u.bookmarks.create!(
     user_id: params[:user_id],
@@ -67,17 +63,7 @@ class Plock < Sinatra::Base
     json u.bookmarks
   end
 
-  post "/recommendations" do
-  
-  end
-
   get "/recommendations" do
-    u = user params[:username], params[:password]
-    if u
-      status 200
-      json u.recommendations
-=======
-
     u = user params[:username], params[:password]
     if u
       u.bookmarks.create!(
@@ -86,23 +72,18 @@ class Plock < Sinatra::Base
       bookmark_name: params[:bookmark_name],
       bookmark_description: params[:bookmark_description]
       )
-
-      json u.bookmarks
->>>>>>> 23e36db58a7571f6aa58536ed1c8a721c66677dd
+      body json u.recommendations
     else
       status 400
       halt({ error: "User not found" }.to_json)
     end
-<<<<<<< HEAD
-=======
   end
 
   post "/recommendations" do
-    url = params[:url]
+    url = params[:bookmark_url]
     recipient = params[:recipient]
     u = user params[:username], params[:password]
-    r = Recommendation.new(user_id: u.id, recipient_id:recipient.username, bookmark_id: url)
->>>>>>> 23e36db58a7571f6aa58536ed1c8a721c66677dd
+    r = Recommendation.new(user_id: u.id, recipient_id: recipient.username, bookmark_id: url)
   end
 
   # get "/recommendations" do
