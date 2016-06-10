@@ -87,19 +87,13 @@ class Plock < Sinatra::Base
   end
 
   # get "/recommendations" do
-  #
   #   u = user params[:username], params[:password]
   #   if u
   #     status 200
-  #     body json u.bookmarks
+  #     body json u.recommendations
   #   else
   #     status 400
   #   end
-  #
-  #
-  #   user = User.find_by(username: username, password: password)
-  #   recommend = Recommendations.where(recipient_id: user.id)
-  #   recommend.
   # end
 end
 
