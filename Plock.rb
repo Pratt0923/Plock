@@ -82,7 +82,6 @@ class Plock < Sinatra::Base
     recipient = params[:recipient]
     r = User.find_by(username: recipient)
     u = user params[:username], params[:password]
-    nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
     # data = {
     #   channel: "#plock_recommendations",
@@ -96,30 +95,35 @@ class Plock < Sinatra::Base
     #   payload: data.to_json
     # }
 
-    status 200
-    body json r.recommendations
+      if u
+      nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
+      sender = u.username
+      # data = {
+      #   channel: "#plock_recommendations",
+      #   username: "Plock!",
+      #   text: "@#{sender} recommended a link to @#{r.username}! View it <#{bookmark.bookmark_url}|here!> ",
+      #   icon_emoji: ":aardwolf2:",
+      #   link_names: 2
+      # }
+      # HTTParty.post "https://hooks.slack.com/services/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",
+      # body: {
+      #   payload: data.to_json
+      # }
 
-  end
-
-  get "/recommendations" do
-    u = user params[:username], params[:password]
-    if u
       status 200
-      body json u.recommendations
+      body json r.recommendations
     else
       status 400
+      halt({error: "User not found"}.to_json)
     end
   end
-
 
   post "/:id/my_bookmarks" do
     u = user params[:username], params[:password]
     # if u
     deleting_item = u.bookmarks.find_by(:id)
-    binding.pry
     deleting_item.delete
     status 200
-    binding.pry
     # else
     status 404
     halt({ error: "Can not delete bookmark" }.to_json)
