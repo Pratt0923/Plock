@@ -34,17 +34,17 @@ class PlockTests < Minitest::Test
   end
 
 
-  def setup
-    Bookmark.delete_all
-    Recommendation.delete_all
-  end
+  # def setup
+  #   Bookmark.delete_all
+  #   Recommendation.delete_all
+  # end
 
   def test_users_can_see_bookmarks
     make_existing_user
     r = get "/my_bookmarks", params = {"username": "fake", "password": "password"}
     assert_equal 200, r.status
   end
-
+focus
   def test_users_can_add_bookmarks
     p = post "/my_bookmarks", params = {
       "username": "fake",
@@ -71,8 +71,8 @@ focus
     r = post "/recommendations", params = {
       "username": "fake",
       "password": "password",
-      "bookmark_id": 1,
-      "recipient": "impostor",
+      "bookmark_id": 133,
+      "recipient": "recipient",
     }
     binding.pry
   end

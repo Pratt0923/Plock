@@ -54,7 +54,6 @@ class Plock < Sinatra::Base
   end
 
   post "/my_bookmarks" do
-    binding.pry
     u = user params[:username], params[:password]
     u.bookmarks.create!(
     user_id: params[:user_id],
@@ -76,15 +75,14 @@ class Plock < Sinatra::Base
   end
 
   post "/recommendations" do
-    binding.pry
-    # recommendation = params[:bookmark_id]
-    # bookmark = Bookmark.find_by(bookmark_id: recommendation)
-    # recipient = params[:recipient]
-    #
-    # r = User.find_by(username: recipient)
-    # u = user params[:username], params[:password]
-    #
-    # nr = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: bookmark.id)
+    recommendation = params[:bookmark_id].to_i
+    bookmark = Bookmark.find_by(id: recommendation)
+    recipient = params[:recipient]
+
+    r = User.find_by(username: recipient)
+    u = user params[:username], params[:password]
+
+    nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
   end
 
   # get "/recommendations" do
