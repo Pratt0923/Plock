@@ -73,7 +73,7 @@ focus
       "username": "vegajdr",
       "password": "password",
       "bookmark_id": 155,
-      "recipient": "alyssapratt",
+      "recipient": "erikpetersen",
     }
     binding.pry
     assert_equal 200, r.status
