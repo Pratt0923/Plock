@@ -60,8 +60,8 @@ class Plock < Sinatra::Base
       json u.bookmarks
     else
       status 422
-      halt({error: "That is not a valid URL (Please include the 'http' section)"}.to_json)
 
+      halt({error: "That is not a valid URL (Please include the 'http' section)"}.to_json)
     end
   end
 
@@ -88,7 +88,7 @@ class Plock < Sinatra::Base
       channel: "#plock_recommendations",
       username: "Plock!",
       text: "@#{sender} recommended a link to @#{r.username}! View it <#{bookmark.bookmark_url}|here!> ",
-      icon_emoji: ":aardwolf:",
+      icon_emoji: ":aardwolf2:",
       link_names: 2
     }
     HTTParty.post "https://hooks.slack.com/services/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",
@@ -123,7 +123,6 @@ class Plock < Sinatra::Base
     # else
     status 404
     halt({ error: "Can not delete bookmark" }.to_json)
-    binding.pry
     # end
   end
 end

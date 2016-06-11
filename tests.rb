@@ -44,12 +44,13 @@ class PlockTests < Minitest::Test
     r = get "/my_bookmarks", params = {"username": "fake", "password": "password"}
     assert_equal 200, r.status
   end
+
 focus
   def test_users_can_add_bookmarks
     p = post "/my_bookmarks", params = {
       "username": "fake",
       "password": "password",
-      "bookmark_url": "http://www.google.com",
+      "bookmark_url": "http://google.com",
       "bookmark_name": "Some cool article",
       "bookmark_description": "You should revisit this"
     }
