@@ -109,31 +109,21 @@ class Plock < Sinatra::Base
 
   end
 
-  get "/recommendations" do
-    u = user params[:username], params[:password]
-    if u
-      status 200
-      body json u.recommendations
-    else
-      status 400
-    end
-  end
-
 # delete method does not work but exists!
-  delete "/:id/my_bookmarks" do
-    u = user params[:username], params[:password]
-    # if u
-    deleting_item = u.bookmarks.find_by(:id)
-    binding.pry
-    deleting_item.delete
-    status 200
-    binding.pry
-    # else
-    status 404
-    halt({ error: "Can not delete bookmark" }.to_json)
-    binding.pry
-    # end
-  end
+  # delete "/:id/my_bookmarks" do
+  #   u = user params[:username], params[:password]
+  #   # if u
+  #   deleting_item = u.bookmarks.find_by(:id)
+  #   binding.pry
+  #   deleting_item.delete
+  #   status 200
+  #   binding.pry
+  #   # else
+  #   status 404
+  #   halt({ error: "Can not delete bookmark" }.to_json)
+  #   binding.pry
+  #   # end
+  # end
 end
 
 if $PROGRAM_NAME == __FILE__
