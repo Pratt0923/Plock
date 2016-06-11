@@ -66,14 +66,15 @@ focus
     assert_equal 0, rightuser.first.bookmarks.count
     assert_equal 1, wronguser.first.bookmarks.count
   end
-
+focus
   def test_users_can_post_recommendations
     r = post "/recommendations", params = {
-      "username": "fake",
+      "username": "vegajdr",
       "password": "password",
-      "bookmark_id": 15,
-      "recipient": "recipient",
+      "bookmark_id": 155,
+      "recipient": "alyssapratt",
     }
+    binding.pry
     assert_equal 200, r.status
   end
 

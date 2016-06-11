@@ -23,6 +23,9 @@ class Plock < Sinatra::Base
       halt 404
     elsif e.is_a? ActiveRecord::RecordInvalid
       json error: e.message
+    elsif e.is_a? ActiveRecord::RecordNotUnique
+      status 400
+      json error: e.message
     else
       # raise e
       puts e.message
@@ -81,7 +84,6 @@ class Plock < Sinatra::Base
     u = user params[:username], params[:password]
     nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
-
     data = {
       channel: "#plock_recommendations",
       username: "Plock!",
