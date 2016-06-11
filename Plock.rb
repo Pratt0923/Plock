@@ -54,7 +54,6 @@ class Plock < Sinatra::Base
   end
 
   post "/my_bookmarks" do
-    binding.pry
     u = user params[:username], params[:password]
     u.bookmarks.create!(
     user_id: params[:user_id],
@@ -76,25 +75,23 @@ class Plock < Sinatra::Base
   end
 
   post "/recommendations" do
-    url = params[:bookmark_url]
+    recommendation = params[:bookmark_id].to_i
+    bookmark = Bookmark.find_by(id: recommendation)
     recipient = params[:recipient]
+<<<<<<< HEAD
     u = user params[:username], params[:password]
 
     r = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: url)
 
+=======
+>>>>>>> 71f732572819f203680a08c5f26da7484fa1494c
 
+    r = User.find_by(username: recipient)
+    u = user params[:username], params[:password]
 
-    # recommendation = params[:bookmark_id]
-    # bookmark = Bookmark.find_by(bookmark_id: recommendation)
-    # recipient = params[:recipient]
-    #
-    # r = User.find_by(username: recipient)
-    # u = user params[:username], params[:password]
-    #
-    # nr = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: bookmark.id)
+    nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
     reciever = recipient.username
-
     #THIS WORKS WOOT WOOT!
     data = {
       channel: "#plock_recommendations",
