@@ -77,40 +77,33 @@ class Plock < Sinatra::Base
   end
 
   post "/recommendations" do
-    recommendation = params[:bookmark_id].to_i
-    bookmark = Bookmark.find_by(id: recommendation)
-    recipient = params[:recipient]
-    r = User.find_by(username: recipient)
-    u = user params[:username], params[:password]
-    nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
-    sender = u.username
-    data = {
-      channel: "#plock_recommendations",
-      username: "Plock!",
-      text: "@#{sender} recommended a link to @#{r.username}! View it <#{bookmark.bookmark_url}|here!> ",
-      icon_emoji: ":aardwolf2:",
-      link_names: 2
-    }
-    HTTParty.post "https://hooks.slack.com/services/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",
-    body: {
-      payload: data.to_json
-    }
-
-    status 200
-    body json r.recommendations
-
-  end
-
-  get "/recommendations" do
     u = user params[:username], params[:password]
     if u
+      recommendation = params[:bookmark_id].to_i
+      bookmark = Bookmark.find_by(id: recommendation)
+      recipient = params[:recipient]
+      r = User.find_by(username: recipient)
+      u = user params[:username], params[:password]
+      nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
+      sender = u.username
+      data = {
+        channel: "#plock_recommendations",
+        username: "Plock!",
+        text: "@#{sender} recommended a link to @#{r.username}! View it <#{bookmark.bookmark_url}|here!> ",
+        icon_emoji: ":aardwolf2:",
+        link_names: 2
+      }
+      HTTParty.post "https://hooks.slack.com/services/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",
+      body: {
+        payload: data.to_json
+      }
+
       status 200
-      body json u.recommendations
+      body json r.recommendations
     else
       status 400
-    end
+      halt({error: "User not found"}.to_json)
   end
-
 
   post "/:id/my_bookmarks" do
     u = user params[:username], params[:password]
