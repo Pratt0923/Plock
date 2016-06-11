@@ -60,14 +60,14 @@ class Plock < Sinatra::Base
 
   post "/my_bookmarks" do
 
-      u = user params[:username], params[:password]
-      u.bookmarks.create!(
-      user_id: params[:user_id],
-      bookmark_url: params[:bookmark_url],
-      bookmark_name: params[:bookmark_name],
-      bookmark_description: params[:bookmark_description]
-      )
-  if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+    u = user params[:username], params[:password]
+    u.bookmarks.create!(
+    user_id: params[:user_id],
+    bookmark_url: params[:bookmark_url],
+    bookmark_name: params[:bookmark_name],
+    bookmark_description: params[:bookmark_description]
+    )
+    if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
       json u.bookmarks
     else
       status 404

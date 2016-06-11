@@ -49,7 +49,7 @@ focus
     p = post "/my_bookmarks", params = {
       "username": "fake",
       "password": "password",
-      "bookmark_url": "http://www.||badurl.greg",
+      "bookmark_url": "http://www.google.com",
       "bookmark_name": "Some cool article",
       "bookmark_description": "You should revisit this"
     }
