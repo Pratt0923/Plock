@@ -39,8 +39,9 @@ class PlockTests < Minitest::Test
   #   Recommendation.delete_all
   # end
 
+  focus
   def test_users_can_see_bookmarks
-    make_existing_user
+  
     r = get "/my_bookmarks", params = {"username": "fake", "password": "password"}
     assert_equal 200, r.status
   end

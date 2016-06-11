@@ -16,7 +16,7 @@ class Plock < Sinatra::Base
       resource "*", headers: :any, methods: :any
     end
   end
-#
+  #
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
       halt 404
@@ -42,11 +42,13 @@ class Plock < Sinatra::Base
   def user name, password
     User.find_by(username: name, password: password)
   end
-#----------------------------------------------------------------
+  #----------------------------------------------------------------
   get "/my_bookmarks" do
     u = user params[:username], params[:password]
-
-    if u
+    if u && (u.bookmarks == [])
+      status 400
+      halt({error: "You have no bookmarks saved"}.to_json)
+    elsif u
       status 200
       body json u.bookmarks
     else
@@ -97,11 +99,11 @@ class Plock < Sinatra::Base
     }
 
     HTTParty.post "https://hooks.slack.com/services/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",
-      body: {
-        payload: data.to_json
-      }
-      binding.pry
-      body json
+    body: {
+      payload: data.to_json
+    }
+    binding.pry
+    body json
 
 
   end
@@ -120,15 +122,15 @@ class Plock < Sinatra::Base
   post "/:id/my_bookmarks" do
     u = user params[:username], params[:password]
     # if u
-      deleting_item = u.bookmarks.find_by(:id)
-      binding.pry
-      deleting_item.delete
-      status 200
-      binding.pry
+    deleting_item = u.bookmarks.find_by(:id)
+    binding.pry
+    deleting_item.delete
+    status 200
+    binding.pry
     # else
-      status 404
-      halt({ error: "Can not delete bookmark" }.to_json)
-      binding.pry
+    status 404
+    halt({ error: "Can not delete bookmark" }.to_json)
+    binding.pry
     # end
   end
 end
