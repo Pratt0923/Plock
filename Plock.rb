@@ -46,7 +46,7 @@ class Plock < Sinatra::Base
 
   post "/my_bookmarks" do
     u = user params[:username], params[:password]
-    if params[:bookmark_url] =~ (/\A#{URI::regexp(['http', 'https'])}\z/) || (/\A#{URI::regexp}\z/)
+    if params[:bookmark_url] =~ /\A#{URI::regexp(['http', 'https'])}\z/
       u.bookmarks.create!(
       user_id: params[:user_id],
       bookmark_url: params[:bookmark_url],
@@ -55,10 +55,8 @@ class Plock < Sinatra::Base
       )
       status 200
       json u.bookmarks
-      binding.pry
     else
       status 422
-      binding.pry
 
       halt({error: "That is not a valid URL (Please include the 'http' section)"}.to_json)
     end
@@ -123,7 +121,6 @@ class Plock < Sinatra::Base
     # else
     status 404
     halt({ error: "Can not delete bookmark" }.to_json)
-    binding.pry
     # end
   end
 end
