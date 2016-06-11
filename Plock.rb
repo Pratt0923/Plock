@@ -78,6 +78,13 @@ class Plock < Sinatra::Base
     recommendation = params[:bookmark_id].to_i
     bookmark = Bookmark.find_by(id: recommendation)
     recipient = params[:recipient]
+<<<<<<< HEAD
+    u = user params[:username], params[:password]
+
+    r = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: url)
+
+=======
+>>>>>>> 71f732572819f203680a08c5f26da7484fa1494c
 
     r = User.find_by(username: recipient)
     u = user params[:username], params[:password]
@@ -113,11 +120,14 @@ class Plock < Sinatra::Base
     u = user params[:username], params[:password]
     if u
       deleting_item = u.bookmarks.find_by(:id)
+      binding.pry
       deleting_item.delete
       status 200
+      binding.pry
     else
       status 404
       halt({ error: "Can not delete bookmark" }.to_json)
+      binding.pry
     end
   end
 end

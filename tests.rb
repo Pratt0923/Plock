@@ -66,7 +66,7 @@ focus
     assert_equal 0, rightuser.first.bookmarks.count
     assert_equal 1, wronguser.first.bookmarks.count
   end
-focus
+
   def test_users_can_post_recommendations
     r = post "/recommendations", params = {
       "username": "fake",
@@ -92,14 +92,16 @@ focus
     assert_equal 1, Recommendations.where(user_id: user.id)
   end
 
-
-  #I made this test but will test it a lot later so that I don't delete all of the front ends data.
+  focus
   def test_user_can_delete_bookmarks
     make_existing_user
     user = User.find_by(username: "fake", password: "password")
-    user.bookmarks.create!
-    user.bookmarks.create!
-    post "/id=1/my_bookmarks"
+    binding.pry
+    user.bookmarks.create!(user_id: user.id, bookmark_url: "www.com", bookmark_name: "name", bookmark_description: "desc")
+    user.bookmarks.create!(user_id: user.id, bookmark_url: "www.com", bookmark_name: "name", bookmark_description: "desc")
+    bookid = user.bookmarks.last.id
+    r = post "/#{bookid}/my_bookmarks"
+    binding.pry
     assert_equal 1, user.bookmarks.count
   end
 end
