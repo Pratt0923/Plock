@@ -5,6 +5,7 @@ require "./db/setup"
 require "./lib/all"
 require "rack/cors"
 require "httparty"
+require "uri"
 
 class Plock < Sinatra::Base
   set :logging, true
@@ -58,14 +59,20 @@ class Plock < Sinatra::Base
   end
 
   post "/my_bookmarks" do
-    u = user params[:username], params[:password]
-    u.bookmarks.create!(
-    user_id: params[:user_id],
-    bookmark_url: params[:bookmark_url],
-    bookmark_name: params[:bookmark_name],
-    bookmark_description: params[:bookmark_description]
-    )
-    json u.bookmarks
+
+      u = user params[:username], params[:password]
+      u.bookmarks.create!(
+      user_id: params[:user_id],
+      bookmark_url: params[:bookmark_url],
+      bookmark_name: params[:bookmark_name],
+      bookmark_description: params[:bookmark_description]
+      )
+  if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+      json u.bookmarks
+    else
+      status 404
+      halt({error: "That is not a valid URL"}.to_json)
+    end
   end
 
   get "/recommendations" do
@@ -97,21 +104,12 @@ class Plock < Sinatra::Base
       icon_emoji: ":aardwolf:",
       link_names: 2
     }
-
     HTTParty.post "https://hooks.slack.com/services/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",
-<<<<<<< HEAD
     body: {
       payload: data.to_json
     }
     binding.pry
     body json
-=======
-      body: {
-        payload: data.to_json
-      }
-      body json
->>>>>>> 12bf8c663dd657eaa5b6c359515a33212227cecf
-
 
   end
 
