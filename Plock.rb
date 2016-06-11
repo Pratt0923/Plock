@@ -86,18 +86,15 @@ class Plock < Sinatra::Base
     recommendation = params[:bookmark_id].to_i
     bookmark = Bookmark.find_by(id: recommendation)
     recipient = params[:recipient]
-
     r = User.find_by(username: recipient)
     u = user params[:username], params[:password]
-
     nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
-    reciever = r.username
 
     data = {
       channel: "#plock_recommendations",
       username: "Plock!",
-      text: "@#{sender} recommended a link to @#{reciever}! View it <#{bookmark.bookmark_url}|here!> ",
+      text: "@#{sender} recommended a link to @#{r.username}! View it <#{bookmark.bookmark_url}|here!> ",
       icon_emoji: ":aardwolf:",
       link_names: 2
     }
@@ -105,8 +102,9 @@ class Plock < Sinatra::Base
     body: {
       payload: data.to_json
     }
-    binding.pry
-    body json
+
+    status 200
+    body json r.recommendations
 
   end
 
