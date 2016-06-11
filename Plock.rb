@@ -98,15 +98,15 @@ class Plock < Sinatra::Base
       }
   end
 
-  # get "/recommendations" do
-  #   u = user params[:username], params[:password]
-  #   if u
-  #     status 200
-  #     body json u.recommendations
-  #   else
-  #     status 400
-  #   end
-  # end
+  get "/recommendations" do
+    u = user params[:username], params[:password]
+    if u
+      status 200
+      body json u.recommendations
+    else
+      status 400
+    end
+  end
 
 
   post "/:id/my_bookmarks" do
