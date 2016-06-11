@@ -46,10 +46,7 @@ class Plock < Sinatra::Base
   #----------------------------------------------------------------
   get "/my_bookmarks" do
     u = user params[:username], params[:password]
-    if u && (u.bookmarks == [])
-      status 400
-      halt({error: "You have no bookmarks saved"}.to_json)
-    elsif u
+    if u
       status 200
       body json u.bookmarks
     else
@@ -59,18 +56,18 @@ class Plock < Sinatra::Base
   end
 
   post "/my_bookmarks" do
-
-      u = user params[:username], params[:password]
-      u.bookmarks.create!(
-      user_id: params[:user_id],
-      bookmark_url: params[:bookmark_url],
-      bookmark_name: params[:bookmark_name],
-      bookmark_description: params[:bookmark_description]
-      )
-  if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+    u = user params[:username], params[:password]
+    u.bookmarks.create!(
+    user_id: params[:user_id],
+    bookmark_url: params[:bookmark_url],
+    bookmark_name: params[:bookmark_name],
+    bookmark_description: params[:bookmark_description]
+    )
+    if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+      status 200
       json u.bookmarks
     else
-      status 400
+      status 422
       halt({error: "That is not a valid URL"}.to_json)
     end
   end
@@ -78,6 +75,7 @@ class Plock < Sinatra::Base
   get "/recommendations" do
     u = user params[:username], params[:password]
     if u
+      status 200
       body json u.recommendations
     else
       status 400
@@ -89,18 +87,15 @@ class Plock < Sinatra::Base
     recommendation = params[:bookmark_id].to_i
     bookmark = Bookmark.find_by(id: recommendation)
     recipient = params[:recipient]
-
     r = User.find_by(username: recipient)
     u = user params[:username], params[:password]
-
     nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
-    reciever = r.username
 
     data = {
       channel: "#plock_recommendations",
       username: "Plock!",
-      text: "@#{sender} recommended a link to @#{reciever}! View it <#{bookmark.bookmark_url}|here!> ",
+      text: "@#{sender} recommended a link to @#{r.username}! View it <#{bookmark.bookmark_url}|here!> ",
       icon_emoji: ":aardwolf:",
       link_names: 2
     }
@@ -108,8 +103,9 @@ class Plock < Sinatra::Base
     body: {
       payload: data.to_json
     }
-    binding.pry
-    body json
+
+    status 200
+    body json r.recommendations
 
   end
 
