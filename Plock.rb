@@ -29,17 +29,6 @@ class Plock < Sinatra::Base
     end
   end
 
-  # before do
-  #   require_authorization!
-  # end
-  #
-  # def require_authorization!
-  #   unless user
-  #     status 401
-  #     halt({ error: "You must log in" }.to_json)
-  #   end
-  # end
-  #
   def user name, password
     User.find_by(username: name, password: password)
   end
@@ -57,18 +46,19 @@ class Plock < Sinatra::Base
 
   post "/my_bookmarks" do
     u = user params[:username], params[:password]
-    u.bookmarks.create!(
-    user_id: params[:user_id],
-    bookmark_url: params[:bookmark_url],
-    bookmark_name: params[:bookmark_name],
-    bookmark_description: params[:bookmark_description]
-    )
-    if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+    if params[:bookmark_url] =~ /\A#{URI::regexp(['http', 'https'])}\z/
+      u.bookmarks.create!(
+      user_id: params[:user_id],
+      bookmark_url: params[:bookmark_url],
+      bookmark_name: params[:bookmark_name],
+      bookmark_description: params[:bookmark_description]
+      )
       status 200
       json u.bookmarks
     else
       status 422
-      halt({error: "That is not a valid URL"}.to_json)
+      halt({error: "That is not a valid URL (Please include the 'http' section)"}.to_json)
+
     end
   end
 
@@ -135,6 +125,7 @@ class Plock < Sinatra::Base
     # end
   end
 end
+
 
 if $PROGRAM_NAME == __FILE__
   Plock.run!
