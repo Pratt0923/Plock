@@ -99,11 +99,18 @@ class Plock < Sinatra::Base
     }
 
     HTTParty.post "https://hooks.slack.com/services/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",
+<<<<<<< HEAD
     body: {
       payload: data.to_json
     }
     binding.pry
     body json
+=======
+      body: {
+        payload: data.to_json
+      }
+      body json
+>>>>>>> 12bf8c663dd657eaa5b6c359515a33212227cecf
 
 
   end
