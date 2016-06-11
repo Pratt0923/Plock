@@ -74,6 +74,7 @@ focus
       "bookmark_id": 15,
       "recipient": "recipient",
     }
+    assert_equal 200, r.status
   end
 
   def users_can_post_recommendations
