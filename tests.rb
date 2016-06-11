@@ -67,7 +67,6 @@ class PlockTests < Minitest::Test
     assert_equal 1, wronguser.first.bookmarks.count
   end
 
-  focus
   def test_users_can_post_recommendations
     r = post "/recommendations", params = {
       "username": "fake",
