@@ -70,7 +70,7 @@ class Plock < Sinatra::Base
   if u.bookmarks.last.bookmark_url =~ /\A#{URI::regexp(['http', 'https'])}\z/
       json u.bookmarks
     else
-      status 404
+      status 400
       halt({error: "That is not a valid URL"}.to_json)
     end
   end
