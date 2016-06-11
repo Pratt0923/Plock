@@ -87,11 +87,13 @@ class Plock < Sinatra::Base
     nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
     reciever = r.username
+
     data = {
       channel: "#plock_recommendations",
       username: "Plock!",
       text: "@#{sender} recommended a link to @#{reciever}! View it <#{bookmark.bookmark_url}|here!> ",
-      icon_emoji: ":aardwolf:"
+      icon_emoji: ":aardwolf:",
+      link_names: 2
     }
 
     HTTParty.post "https://hooks.slack.com/services/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",
