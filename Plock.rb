@@ -46,10 +46,7 @@ class Plock < Sinatra::Base
   #----------------------------------------------------------------
   get "/my_bookmarks" do
     u = user params[:username], params[:password]
-    if u && (u.bookmarks == [])
-      status 400
-      halt({error: "You have no bookmarks saved"}.to_json)
-    elsif u
+    if u
       status 200
       body json u.bookmarks
     else
