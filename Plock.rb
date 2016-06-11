@@ -77,13 +77,13 @@ class Plock < Sinatra::Base
   end
 
   post "/recommendations" do
-    u = user params[:username], params[:password]
-    if u
       recommendation = params[:bookmark_id].to_i
       bookmark = Bookmark.find_by(id: recommendation)
       recipient = params[:recipient]
       r = User.find_by(username: recipient)
       u = user params[:username], params[:password]
+
+      if u
       nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
       sender = u.username
       data = {
@@ -103,16 +103,15 @@ class Plock < Sinatra::Base
     else
       status 400
       halt({error: "User not found"}.to_json)
+    end
   end
 
   post "/:id/my_bookmarks" do
     u = user params[:username], params[:password]
     # if u
     deleting_item = u.bookmarks.find_by(:id)
-    binding.pry
     deleting_item.delete
     status 200
-    binding.pry
     # else
     status 404
     halt({ error: "Can not delete bookmark" }.to_json)

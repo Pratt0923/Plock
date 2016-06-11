@@ -45,7 +45,7 @@ class PlockTests < Minitest::Test
     assert_equal 200, r.status
   end
 
-focus
+
   def test_users_can_add_bookmarks
     p = post "/my_bookmarks", params = {
       "username": "fake",
@@ -67,6 +67,7 @@ focus
     assert_equal 0, rightuser.first.bookmarks.count
     assert_equal 1, wronguser.first.bookmarks.count
   end
+
 focus
   def test_users_can_post_recommendations
     r = post "/recommendations", params = {
