@@ -78,13 +78,6 @@ class Plock < Sinatra::Base
     recommendation = params[:bookmark_id].to_i
     bookmark = Bookmark.find_by(id: recommendation)
     recipient = params[:recipient]
-<<<<<<< HEAD
-    u = user params[:username], params[:password]
-
-    r = Recommendation.new(user_id: u.id, recipient_id: recipient.id, bookmark_id: url)
-
-=======
->>>>>>> 71f732572819f203680a08c5f26da7484fa1494c
 
     r = User.find_by(username: recipient)
     u = user params[:username], params[:password]
