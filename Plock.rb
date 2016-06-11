@@ -87,11 +87,7 @@ class Plock < Sinatra::Base
     nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
     reciever = r.username
-<<<<<<< HEAD
 
-    #THIS WORKS WOOT WOOT!
-=======
->>>>>>> 1d20fe5364301668050f71ccfbe6adc63bf8f279
     data = {
       channel: "#plock_recommendations",
       username: "Plock!",
@@ -103,7 +99,6 @@ class Plock < Sinatra::Base
       body: {
         payload: data.to_json
       }
-      binding.pry
       body json
 
 
