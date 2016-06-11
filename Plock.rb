@@ -4,6 +4,8 @@ require "sinatra/json"
 require "./db/setup"
 require "./lib/all"
 require "rack/cors"
+require "httparty"
+
 class Plock < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
@@ -84,14 +86,14 @@ class Plock < Sinatra::Base
 
     nr = Recommendation.create!(user_id: u.id, recipient_id: r.id, bookmark_id: bookmark.id)
     sender = u.username
-    reciever = recipient.username
-    #THIS WORKS WOOT WOOT!
+    reciever = r.username
     data = {
       channel: "#plock_recommendations",
       username: "Plock!",
-      text: "@#{sender} recommended a link to @#{reciever}! View it <https://www.theironyard.com|here!> ",
+      text: "@#{sender} recommended a link to @#{reciever}! View it <#{bookmark.bookmark_url}|here!> ",
       icon_emoji: ":aardwolf:"
     }
+
     HTTParty.post "https://hooks.slack.com/services/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",
       body: {
         payload: data.to_json
@@ -111,17 +113,17 @@ class Plock < Sinatra::Base
 
   post "/:id/my_bookmarks" do
     u = user params[:username], params[:password]
-    if u
+    # if u
       deleting_item = u.bookmarks.find_by(:id)
       binding.pry
       deleting_item.delete
       status 200
       binding.pry
-    else
+    # else
       status 404
       halt({ error: "Can not delete bookmark" }.to_json)
       binding.pry
-    end
+    # end
   end
 end
 
