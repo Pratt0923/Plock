@@ -67,7 +67,7 @@ class Plock < Sinatra::Base
       status 200
       json u.bookmarks
     else
-      status 404
+      status 422
       halt({error: "That is not a valid URL"}.to_json)
     end
   end
@@ -75,6 +75,7 @@ class Plock < Sinatra::Base
   get "/recommendations" do
     u = user params[:username], params[:password]
     if u
+      status 200
       body json u.recommendations
     else
       status 400
