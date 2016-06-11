@@ -44,7 +44,7 @@ class PlockTests < Minitest::Test
     r = get "/my_bookmarks", params = {"username": "fake", "password": "password"}
     assert_equal 200, r.status
   end
-focus
+
   def test_users_can_add_bookmarks
     p = post "/my_bookmarks", params = {
       "username": "fake",
@@ -66,7 +66,7 @@ focus
     assert_equal 0, rightuser.first.bookmarks.count
     assert_equal 1, wronguser.first.bookmarks.count
   end
-
+focus
   def test_users_can_post_recommendations
     r = post "/recommendations", params = {
       "username": "fake",
@@ -92,16 +92,16 @@ focus
     assert_equal 1, Recommendations.where(user_id: user.id)
   end
 
-  focus
-  def test_user_can_delete_bookmarks
-    make_existing_user
-    user = User.find_by(username: "fake", password: "password")
-    binding.pry
-    user.bookmarks.create!(user_id: user.id, bookmark_url: "www.com", bookmark_name: "name", bookmark_description: "desc")
-    user.bookmarks.create!(user_id: user.id, bookmark_url: "www.com", bookmark_name: "name", bookmark_description: "desc")
-    bookid = user.bookmarks.last.id
-    r = post "/#{bookid}/my_bookmarks"
-    binding.pry
-    assert_equal 1, user.bookmarks.count
-  end
+  # focus
+  # def test_user_can_delete_bookmarks
+  #   make_existing_user
+  #   user = User.find_by(username: "fake", password: "password")
+  #   binding.pry
+  #   user.bookmarks.create!(user_id: user.id, bookmark_url: "www.com", bookmark_name: "name", bookmark_description: "desc")
+  #   user.bookmarks.create!(user_id: user.id, bookmark_url: "www.com", bookmark_name: "name", bookmark_description: "desc")
+  #   bookid = user.bookmarks.last.id
+  #   r = post "/#{bookid}/my_bookmarks"
+  #   binding.pry
+  #   assert_equal 1, user.bookmarks.count
+  # end
 end
