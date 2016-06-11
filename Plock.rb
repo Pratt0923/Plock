@@ -92,7 +92,8 @@ class Plock < Sinatra::Base
       channel: "#plock_recommendations",
       username: "Plock!",
       text: "@#{sender} recommended a link to @#{reciever}! View it <#{bookmark.bookmark_url}|here!> ",
-      icon_emoji: ":aardwolf:"
+      icon_emoji: ":aardwolf:",
+      link_names: 2
     }
 
     HTTParty.post "https://hooks.slack.com/services/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",
