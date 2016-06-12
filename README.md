@@ -1,28 +1,20 @@
-This folder structure should be suitable for starting a project that uses a database:
+## Welcome to Plock!
+Plock! is newest and greatest bookmark-saving application! Simply follow these steps to gain access to the best of Plock!
 
-* Clone the repo
-* `rake generate:migration <Name>` to create a migration
-* `rake db:migrate` to run it
-* Create models
-* ... ?
-* Profit
+## Saving Bookmarks
+Plock! will save any link that you wish to save! The link must be a valid URL, and you must create a name for that link and give it a description.
 
-You may need to fiddle around with remotes assuming that you don't want to push to this one (which you probably don't).
+  * Put your username(Slack account name) and password into the form that you are greeted with.
+  * Give your bookmark a name, description, and URL.
+  * Hit that submit button!
+  * You're done! You can see your bookmark if you refresh.
 
-## Rundown
+## Making a Recommendation
+  Next to any bookmark that you have created you can click on a recommendation button! Recommendations will post to Slack and will alert the sender and the reciever that a recommendation has been made!
 
-```
-.
-├── Gemfile             # Details which gems are required by the project
-├── README.md           # This file
-├── Rakefile            # Defines `rake generate:migration` and `db:migrate`
-├── config
-│   └── database.yml    # Defines the database config (e.g. name of file)
-├── console.rb          # `ruby console.rb` starts `pry` with models loaded
-├── db
-│   ├── dev.sqlite3     # Default location of the database file
-│   ├── migrate         # Folder containing generated migrations
-│   └── setup.rb        # `require`ing this file sets up the db connection
-└── lib                 # Your ruby code (models, etc.) should go here
-    └── all.rb          # Require this file to auto-require _all_ `.rb` files in `lib`
-```
+  * Put your username(Slack account name) and password into the form that you are greeted with.
+  * Enter the Slack username of the person that you want to recieve the recommendation.
+  * Click that submit button!
+  * Done! Your recommendation should have posted to Slack.
+
+  Made by Alyssa Pratt and Vega WHATEVERYOURLASTNAMEIS
