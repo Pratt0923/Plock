@@ -17,7 +17,7 @@ class Plock < Sinatra::Base
       resource "*", headers: :any, methods: :any
     end
   end
-  
+
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
       halt 404
@@ -66,9 +66,15 @@ class Plock < Sinatra::Base
 
   get "/recommendations" do
     u = user params[:username], params[:password]
+    hash = []
     if u
+
+      u.recommendations.each do |b|
+        hash.push(b.bookmark)
+      end
+      
       status 200
-      body json u.recommendations
+      body json hash
     else
       status 400
       halt({ error: "User not found" }.to_json)
