@@ -36,4 +36,4 @@ Recommendations should be made to "/recommendations"
 
   * Done! Your recommendation should have posted to Slack.
 
-  Made by Alyssa Pratt and Vega WHATEVERYOURLASTNAMEIS
+  Made by Alyssa Pratt and Jorge ['Vega'] Ramirez
