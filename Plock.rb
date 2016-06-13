@@ -17,7 +17,7 @@ class Plock < Sinatra::Base
       resource "*", headers: :any, methods: :any
     end
   end
-  #
+  
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
       halt 404
@@ -27,7 +27,6 @@ class Plock < Sinatra::Base
       halt 400
       json error: e.message
     else
-      # raise e
       puts e.message
     end
   end
