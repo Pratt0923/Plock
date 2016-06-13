@@ -6,25 +6,25 @@ Bookmarks should be saved at "/my_bookmarks"
 
   Plock! will save any link that you wish to save! The link must be a valid URL, and you must create a name for that link and give it a description.
 
-    * Put your username(Slack account name) and password into the form that you are greeted with.
-      * the body of your request must have your username and password.
-      * Error 400  -  The username and password that you entered were not found! Please try again!
+  * Put your username(Slack account name) and password into the form that you are greeted with.
+    * the body of your request must have your username and password.
+    * Error 400  -  The username and password that you entered were not found! Please try again!
 
-    * Give your bookmark a name, description, and URL.
-      * Error 422  -  You did not enter a valid url! Try again with one that starts with "http" or "https"
-      * The body of your request must have your name(of bookmark), bookmark_url, and bookmark_description.
+  * Give your bookmark a name, description, and URL.
+    * Error 422  -  You did not enter a valid url! Try again with one that starts with "http" or "https"
+    * The body of your request must have your name(of bookmark), bookmark_url, and bookmark_description.
 
-      * POST params:
-        * username
-        * password
-        * bookmark_url
-        * bookmark_description
-        * bookmark_name
+    * POST params:
+      * username
+      * password
+      * bookmark_url
+      * bookmark_description
+      * bookmark_name
 
-    * Hit that submit button!
-      * ValidationError-you did not enter all the required data. Please fill out the form completely.
+  * Hit that submit button!
+    * ValidationError-you did not enter all the required data. Please fill out the form completely.
 
-    * You're done! You can see your bookmark if you refresh.
+  * You're done! You can see your bookmark if you refresh.
 
 ## Making a Recommendation
 Recommendations should be made to "/recommendations"
@@ -46,7 +46,7 @@ Recommendations should be made to "/recommendations"
 
 
   * Click that submit button!
-    * ValidationError  -  You did not enter all the required data. Please fill out the form completely.
+    * ValidationError  -  ou did not enter all the required data. Please fill out the form completely.
 
   * Done! Your recommendation should have posted to Slack.
 
